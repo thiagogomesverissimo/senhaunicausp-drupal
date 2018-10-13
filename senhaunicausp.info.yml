@@ -1,0 +1,5 @@
+name: 'senhaunicausp'
+type: module
+description: 'Senha Única USP'
+core: 8.x
+package: 'USP'

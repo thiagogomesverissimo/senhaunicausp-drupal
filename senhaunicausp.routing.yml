@@ -1,0 +1,19 @@
+
+senhaunicausp.login_controller_login:
+  path: 'login'
+  defaults:
+    _controller: '\Drupal\senhaunicausp\Controller\LoginController::login'
+    _title: 'login'
+  requirements:
+    _permission: 'access content'
+
+senhaunicausp.senhaunicausp_form:
+  path: '/admin/config/senhaunicausp/senhaunicausp'
+  defaults:
+    _form: '\Drupal\senhaunicausp\Form\SenhaunicauspForm'
+    _title: 'SenhaunicauspForm'
+  requirements:
+    _permission: 'access administration pages'
+  options:
+    _admin_route: TRUE
+
