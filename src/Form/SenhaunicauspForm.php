@@ -15,7 +15,7 @@ class SenhaunicauspForm extends ConfigFormBase {
    */
   protected function getEditableConfigNames() {
     return [
-      'senhaunicausp.senhaunicausp',
+      'senhaunicausp.config',
     ];
   }
 
@@ -30,24 +30,24 @@ class SenhaunicauspForm extends ConfigFormBase {
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
-    $config = $this->config('senhaunicausp.senhaunicausp');
+    $config = $this->config('senhaunicausp.config');
     $form['key_id'] = [
-      '#type' => 'key',
-      '#title' => $this->t('key id'),
-      '#description' => $this->t('key id'),
+      '#type' => 'textfield',
+      '#title' => $this->t('key'),
+      '#description' => $this->t('Sua chave. Exemplo: fflch'),
       '#default_value' => $config->get('key_id'),
     ];
     $form['secret_key'] = [
-      '#type' => 'text_format',
+      '#type' => 'textfield',
       '#title' => $this->t('secret key'),
-      '#description' => $this->t('secret key'),
+      '#description' => $this->t(''),
       '#default_value' => $config->get('secret_key'),
     ];
     $form['callback_id'] = [
       '#type' => 'number',
       '#title' => $this->t('callback id'),
       '#description' => $this->t('callback id'),
-      '#default_value' => $config->get('callback_id'),
+      '#default_value' => $config->get('    '),
     ];
     return parent::buildForm($form, $form_state);
   }
@@ -65,7 +65,7 @@ class SenhaunicauspForm extends ConfigFormBase {
   public function submitForm(array &$form, FormStateInterface $form_state) {
     parent::submitForm($form, $form_state);
 
-    $this->config('senhaunicausp.senhaunicausp')
+    $this->config('senhaunicausp.config')
       ->set('key_id', $form_state->getValue('key_id'))
       ->set('secret_key', $form_state->getValue('secret_key'))
       ->set('callback_id', $form_state->getValue('callback_id'))

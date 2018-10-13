@@ -7,11 +7,11 @@ senhaunicausp.login_controller_login:
   requirements:
     _permission: 'access content'
 
-senhaunicausp.senhaunicausp_form:
-  path: '/admin/config/senhaunicausp/senhaunicausp'
+senhaunicausp.config_form:
+  path: '/admin/config/senhaunicausp'
   defaults:
     _form: '\Drupal\senhaunicausp\Form\SenhaunicauspForm'
-    _title: 'SenhaunicauspForm'
+    _title: 'Senha Única USP'
   requirements:
     _permission: 'access administration pages'
   options:

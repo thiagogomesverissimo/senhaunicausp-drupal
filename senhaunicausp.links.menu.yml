@@ -1,7 +1,7 @@
-senhaunicausp.senhaunicausp_form:
-  title: 'SenhaunicauspForm'
-  route_name: senhaunicausp.senhaunicausp_form
-  description: 'Senha Única USP'
+senhaunicausp.config_form:
+  title: 'Senha Única USP'
+  route_name: senhaunicausp.config_form
+  description: 'Configurações para Senha Única USP'
   parent: system.admin_config_system
   weight: 99
 
