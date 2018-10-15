@@ -7,9 +7,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\senhaunicausp\Utils\ServerUSP;
 
-# TODO: avaliar se mantemos os dados na sessão privados:
-# https://drupal.stackexchange.com/questions/197576/storing-data-session-for-anonymous-user?rq=1
-
 
 /**
  * Class LoginController.
@@ -21,14 +18,15 @@ class LoginController extends ControllerBase {
    * Login.
    */
   public function login(Request $request) {
-   
-    // Verifica se o módulo está configurado
-    //if(!empty($config->get('key_id')) )
-    // set flash messages
-    //$session->getFlashBag()->add('notice', 'Profile updated');
-
+  
     $config = $this->config('senhaunicausp.config');
     $session = $request->getSession();
+
+    // Verifica se o módulo está configurado
+    if( empty($config->get('key_id')) || empty($config->get('secret_key')) || empty($config->get('default_role')) ) {
+      drupal_set_message(t('Módulo Senha Única USP ainda não configurado!'), 'error');
+      return $this->redirect('<front>');
+    }
 
     $server = new ServerUSP([
         'identifier' => $config->get('key_id'),
@@ -38,6 +36,16 @@ class LoginController extends ControllerBase {
     if( !is_null($session->get('token_credentials') )) {
       $tokenCredentials = unserialize($session->get('token_credentials'));
       $data = $server->getUserDetails($tokenCredentials);
+
+      // Verifica se o usuário em questão tem permissão para logar
+      if( !empty($config->get('numeros_usp')) ) {
+         $numeros_usp = array_map('trim', explode(',', $config->get('numeros_usp')));
+
+        if(!in_array($data->uid,$numeros_usp)) {
+          drupal_set_message(t('Desculpe-nos! Você não permissão para logar nesse site.'), 'error');
+          return $this->redirect('<front>');
+        }
+      }
 
       $user = user_load_by_name($data->uid);
       if (empty($user)) {
@@ -59,6 +67,9 @@ class LoginController extends ControllerBase {
       // Ativa usuário
       $user->activate();
 
+      // roles
+      $user->addRole($config->get('default_role'));
+
       // Bem, user não deve ter sem senha local...
       $user->setPassword(FALSE);
           
@@ -68,6 +79,7 @@ class LoginController extends ControllerBase {
       // Loga usuário
       user_login_finalize($user);
 
+      drupal_set_message(t('Login efetuado com sucesso!'), 'status');
       return $this->redirect('<front>');
 
     } elseif ( !is_null($request->get('oauth_token')) && !is_null($request->get('oauth_verifier')) ) {
@@ -78,7 +90,7 @@ class LoginController extends ControllerBase {
                           $request->get('oauth_verifier'));
 
       $session->set('token_credentials', serialize($tokenCredentials));
-      // TODO: podemos descartar os token temporários
+      // Issue1: TODO: podemos descartar os token temporários
       //unset($_SESSION['temporary_credentials']);
 
       return $this->redirect('senhaunicausp.login_controller_login');

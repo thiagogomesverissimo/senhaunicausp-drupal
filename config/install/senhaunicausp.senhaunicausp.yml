@@ -1,4 +1,5 @@
 senhaunicausp:
   key_id: "usp"
   secret_key: ""
-  callback_id: 1
+  callback_id: ""
+  numeros_usp: ""
