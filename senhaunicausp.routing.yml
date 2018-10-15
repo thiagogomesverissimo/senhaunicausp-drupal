@@ -6,6 +6,8 @@ senhaunicausp.login_controller_login:
     _title: 'login'
   requirements:
     _permission: 'access content'
+  options:
+    no_cache: TRUE
 
 senhaunicausp.config_form:
   path: '/admin/config/senhaunicausp'

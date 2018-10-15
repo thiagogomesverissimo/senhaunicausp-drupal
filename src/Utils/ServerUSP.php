@@ -5,6 +5,7 @@ namespace Drupal\senhaunicausp\Utils;
 use League\OAuth1\Client\Credentials\TokenCredentials;
 use League\OAuth1\Client\Credentials\TemporaryCredentials;
 use League\OAuth1\Client\Server\Server;
+use League\OAuth1\Client\Server\User;
 
 class ServerUSP extends Server
 {
@@ -44,14 +45,14 @@ class ServerUSP extends Server
      * {@inheritDoc}
      */
     public function userDetails($data, TokenCredentials $tokenCredentials)
-    {  
+    {   
         $user                      = new User();
-        $user->codpes              = $data['loginUsuario'];
-        $user->nompes              = $data['nomeUsuario'];
+        $user->uid                 = $data['loginUsuario'];
+        $user->name                = $data['nomeUsuario'];
         $user->email               = $data['emailPrincipalUsuario'];
-        $user->emailUsp            = $data['emailUspUsuario'];
-        $user->emailAlternativo    = $data['emailAlternativoUsuario'];
-        $user->telefone            = $data['numeroTelefoneFormatado'];
+#        $user->emailUsp            = $data['emailUspUsuario'];
+#        $user->emailAlternativo    = $data['emailAlternativoUsuario'];
+#        $user->telefone            = $data['numeroTelefoneFormatado'];
         /*
         *    Dentro do Vinculo terão as seguintes informações
         *    'tipoVinculo'
@@ -64,9 +65,9 @@ class ServerUSP extends Server
         *    'nomeAbreviadoFuncao'
         */
         if ($data['tipoUsuario'] == 'I'){
-            $user->vinculo = $data['vinculo'];
+            $user->extra = $data['vinculo'];
         } else {
-            $user->vinculo = array();
+            $user->extra = array();
         }
 
         return $user;
