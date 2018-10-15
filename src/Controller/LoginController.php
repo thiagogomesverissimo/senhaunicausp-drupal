@@ -26,21 +26,33 @@ class LoginController extends ControllerBase {
         'secret' => $config->get('secret_key'),
     ]);
 
-    $temporaryCredentials = $server->getTemporaryCredentials();
+    // Verifica se há tokens temporário
 
     $session = $request->getSession();
-    $value = $session->get('senhaunicausp.temporary_credentials');
-    
 
-    $session->set('senhaunicausp', serialize($temporaryCredentials));
+    if( empty($session->get('temporary_credentials','')) ) {
 
-    print_r($session->get('senhaunicausp.temporary_credentials')); die();
+        $temporaryCredentials = $server->getTemporaryCredentials();
+        $session->set('temporary_credentials', serialize($temporaryCredentials));
+        $url = $server->getAuthorizationUrl($temporaryCredentials) . '&callback_id=' . $config->get('callback_id');
+        return new TrustedRedirectResponse($url);
+    }
+    else {
 
+        //return $this->redirect("senhaunicausp.login_controller_callback");
+        $temporaryCredentials = unserialize($session->get('temporary_credentials',false));
+        //$tokenCredentials = $server->getTokenCredentials($temporaryCredentials, $_GET['oauth_token'], $_GET['oauth_verifier']);
 
-    $url = $server->getAuthorizationUrl($temporaryCredentials) . '&callback_id=' . $config->get('callback_id');
-
-    return new TrustedRedirectResponse($url);
+      //$user = $server->getUserDetails($tokenCredentials);
+      
+echo '<pre>';
+//var_dump($_SESSION);
+var_dump($temporaryCredentials);
+echo '</pre>';
+die('msorri');
+    }
 
   }
+
 
 }
