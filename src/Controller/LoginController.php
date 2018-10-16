@@ -17,7 +17,7 @@ class LoginController extends ControllerBase {
    * Login.
    */
   public function login(Request $request) {
-    
+
     $config = $this->config('senhaunicausp.config');
     $session = $request->getSession();
 
@@ -38,15 +38,15 @@ class LoginController extends ControllerBase {
 
       // Verifica se o usuário em questão tem permissão para logar
       if( !empty($config->get('numeros_usp')) ) {
-      
+
         // autorizações de um serviço externo
         if($config->get('numeros_usp_service')){
           $site = $request->server->get('HTTP_HOST');
 
           $client = new Client([
-             'base_uri' => $config->get('endpoint') . '/',
+             'base_uri' => $config->get('endpoint'),
           ]);
-          $res = $client->request('GET',"/sites/$site/owners", 
+          $res = $client->request('GET',"/$site",
                 ['query' => ['api-key' => $config->get('apikey')]
           ]);
           $numeros_usp_from_service = json_decode($res->getBody());
@@ -54,7 +54,7 @@ class LoginController extends ControllerBase {
           $numeros_usp_from_service = '';
         }
         $numeros_usp = $config->get('numeros_usp') . ',' . $numeros_usp_from_service;
-        
+
         $numeros_usp = array_map('trim', explode(',', $numeros_usp));
 
         if(!in_array($data->uid,$numeros_usp)) {
@@ -70,7 +70,7 @@ class LoginController extends ControllerBase {
         $user->enforceIsNew();
       }
       $user->setEmail($data->email);
-      
+
       // Configura língua default do sistema
       $language = \Drupal::languageManager()->getCurrentLanguage()->getId();
       $user->set("langcode", $language);
@@ -88,7 +88,7 @@ class LoginController extends ControllerBase {
 
       // Bem, user não deve ter sem senha local...
       $user->setPassword(FALSE);
-          
+
       //Save user.
       $user->save();
 
@@ -100,9 +100,9 @@ class LoginController extends ControllerBase {
 
     } elseif ( !is_null($request->get('oauth_token')) && !is_null($request->get('oauth_verifier')) ) {
       $temporaryCredentials = unserialize($session->get('temporary_credentials'));
-     
-      $tokenCredentials = $server->getTokenCredentials($temporaryCredentials, 
-                          $request->get('oauth_token'), 
+
+      $tokenCredentials = $server->getTokenCredentials($temporaryCredentials,
+                          $request->get('oauth_token'),
                           $request->get('oauth_verifier'));
 
       $session->set('token_credentials', serialize($tokenCredentials));
@@ -111,7 +111,7 @@ class LoginController extends ControllerBase {
 
       return $this->redirect('senhaunicausp.login_controller_login');
       //return new Response();
-  
+
     } else {
       $temporaryCredentials = $server->getTemporaryCredentials();
       $session->set('temporary_credentials', serialize($temporaryCredentials));
