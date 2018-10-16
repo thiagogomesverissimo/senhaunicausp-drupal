@@ -6,19 +6,18 @@ use Drupal\Core\Routing\TrustedRedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\senhaunicausp\Utils\ServerUSP;
-
+use GuzzleHttp\Client;
 
 /**
  * Class LoginController.
  */
 class LoginController extends ControllerBase {
 
-
   /**
    * Login.
    */
   public function login(Request $request) {
-  
+    
     $config = $this->config('senhaunicausp.config');
     $session = $request->getSession();
 
@@ -39,7 +38,24 @@ class LoginController extends ControllerBase {
 
       // Verifica se o usuário em questão tem permissão para logar
       if( !empty($config->get('numeros_usp')) ) {
-         $numeros_usp = array_map('trim', explode(',', $config->get('numeros_usp')));
+      
+        // autorizações de um serviço externo
+        if($config->get('numeros_usp_service')){
+          $site = $request->server->get('HTTP_HOST');
+
+          $client = new Client([
+             'base_uri' => $config->get('endpoint') . '/',
+          ]);
+          $res = $client->request('GET',"/sites/$site/owners", 
+                ['query' => ['api-key' => $config->get('apikey')]
+          ]);
+          $numeros_usp_from_service = json_decode($res->getBody());
+        } else {
+          $numeros_usp_from_service = '';
+        }
+        $numeros_usp = $config->get('numeros_usp') . ',' . $numeros_usp_from_service;
+        
+        $numeros_usp = array_map('trim', explode(',', $numeros_usp));
 
         if(!in_array($data->uid,$numeros_usp)) {
           drupal_set_message(t('Desculpe-nos! Você não permissão para logar nesse site.'), 'error');

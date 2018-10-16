@@ -16,6 +16,7 @@
       "homepage": "https://github.com/thiagogomesverissimo"
   }],
   "require": {
-    "league/oauth1-client": "^1.0@dev"
+    "league/oauth1-client": "^1.0@dev",
+    "guzzlehttp/guzzle": "^6.3@dev"
   }
 }

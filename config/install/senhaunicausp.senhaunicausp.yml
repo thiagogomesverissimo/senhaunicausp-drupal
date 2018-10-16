@@ -3,3 +3,7 @@ senhaunicausp:
   secret_key: ""
   callback_id: ""
   numeros_usp: ""
+  default_role: ""
+  numeros_usp_service: ""
+  endpoint: "http://exemplo.usp.br"
+  apikey: ""
