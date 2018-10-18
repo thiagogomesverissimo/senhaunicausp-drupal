@@ -89,6 +89,27 @@ class LoginController extends ControllerBase {
       // Bem, user não deve ter sem senha local...
       $user->setPassword(FALSE);
 
+      // Populando os campos criados em Drupal Accounts Fields
+      // admin/config/people/accounts/fields
+      // Array com as chaves (sufixo do field name no Drupal accounts fields) e o valor no OAuth USP
+      // field name no Drupal = field_nompes = Nome Completo
+      $profile = array (
+        'nompes'    => $data->name, # Nome Completo
+        'codpes'    => $data->uid, # Nº USP
+        'nomset'    => $data->extra[0]['nomeAbreviadoSetor'], # Sigla do Setor
+        'nomabvset' => $data->extra[0]['nomeSetor'], # Nome do Setor
+        'sglund'    => $data->extra[0]['siglaUnidade'], # Sigla da Unidade
+        'nomund'    => $data->extra[0]['nomeUnidade'], # Nome da Unidade
+        'nomvin'    => $data->extra[0]['nomeVinculo'] # Nome do Vínculo
+      );
+
+      foreach ($profile as $chave => $valor) {
+        // Se existe o campo no Drupal accounts fields, popula
+        if ($user->hasField("field_$chave")) {
+          $user->set("field_$chave", $valor);
+        }
+      }
+
       //Save user.
       $user->save();
 
