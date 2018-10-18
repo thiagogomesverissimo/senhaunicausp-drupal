@@ -96,8 +96,8 @@ class LoginController extends ControllerBase {
       $profile = array (
         'nompes'    => $data->name, # Nome Completo
         'codpes'    => $data->uid, # Nº USP
-        'nomset'    => $data->extra[0]['nomeAbreviadoSetor'], # Sigla do Setor
-        'nomabvset' => $data->extra[0]['nomeSetor'], # Nome do Setor
+        'nomabvset' => $data->extra[0]['nomeAbreviadoSetor'], # Sigla do Setor
+        'nomset'    => $data->extra[0]['nomeSetor'], # Nome do Setor
         'sglund'    => $data->extra[0]['siglaUnidade'], # Sigla da Unidade
         'nomund'    => $data->extra[0]['nomeUnidade'], # Nome da Unidade
         'nomvin'    => $data->extra[0]['nomeVinculo'] # Nome do Vínculo
