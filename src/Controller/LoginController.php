@@ -83,8 +83,11 @@ class LoginController extends ControllerBase {
       // Ativa usuário
       $user->activate();
 
-      // roles
-      $user->addRole($config->get('default_role'));
+      // role
+      $role = $config->get('default_role');
+      if ($role != 'authenticated') {
+        $user->addRole($role);
+      }
 
       // Bem, user não deve ter sem senha local...
       $user->setPassword(FALSE);

@@ -115,8 +115,7 @@ class SenhaunicauspForm extends ConfigFormBase {
         $roles_name[$key] = $key;
     }
 
-    // but: Anonymous or authenticated role ID must not be assigned manually
-    unset($roles_name['authenticated']);
+    // Anonymous or authenticated role ID must not be assigned manually
     unset($roles_name['anonymous']);
     return $roles_name;
   }
