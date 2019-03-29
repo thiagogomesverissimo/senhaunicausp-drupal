@@ -15,7 +15,7 @@ senhaunicausp.config_form:
     _form: '\Drupal\senhaunicausp\Form\SenhaunicauspForm'
     _title: 'Senha Única USP'
   requirements:
-    _permission: 'access administration pages'
+    _permission: 'senhaunica usp'
   options:
     _admin_route: TRUE
     no_cache: TRUE
