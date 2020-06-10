@@ -29,11 +29,11 @@ https://seusite.usp.br/admin/config/senhaunicausp
 
 ### Depois de configurado os usuários poderão logar com senha única USP usando a url:
 
-<img src="docs/senhaunicausp1.png" width="80%" />
+<img src="senhaunicausp1.png" width="80%" />
 
-<img src="docs/senhaunicausp2.png" width="80%" />
+<img src="senhaunicausp2.png" width="80%" />
 
-<img src="docs/senhaunicausp3.png" width="80%" />
+<img src="senhaunicausp3.png" width="80%" />
 
 https://seusite.usp.br/login
 
