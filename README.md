@@ -29,6 +29,12 @@ https://seusite.usp.br/admin/config/senhaunicausp
 
 ### Depois de configurado os usuários poderão logar com senha única USP usando a url:
 
+<img src="docs/senhaunicausp1.png" width="80%" />
+
+<img src="docs/senhaunicausp2.png" width="80%" />
+
+<img src="docs/senhaunicausp3.png" width="80%" />
+
 https://seusite.usp.br/login
 
 ## Extras
@@ -40,6 +46,7 @@ Quando existem campos customizados para contas de usuários cadastrados em
 https://seusite.usp.br/admin/config/people/accounts/fields,
 eles serão preenchidos por este módulo, usando as seguintes chaves:
 
+```bash
 oauth               = account field name
 ----------------------------------------
 uid                 = field_codpes
@@ -48,6 +55,7 @@ nomeSetor           = field_nomset
 siglaUnidade        = field_sglund
 nomeUnidade         = field_nomund
 nomeVinculo         = field_nomvin
+```
 
 ### Incluindo a opção de consumir os números USP de uma API
 
@@ -61,14 +69,12 @@ https://uspdev.github.io/posts/drupal-senhaunica-rules
 
 Siga o guia no site do [uspdev](https://uspdev.github.io/contribua)
 
-### Clone o projeto pelo Github
+### No Github faça um fork e clone o projeto
 
 ```bash
 cd drupal/modules/contrib
-git clone git@github.com:whatever senhaunicausp
+git clone git@github.com:suacontagithub/senhaunicausp-drupal.git senhaunicausp
 ```
-
-Troque whatever pelo seu fork correto
 
 ### Padrões de Projeto
 
