@@ -41,10 +41,9 @@ https://seusite.usp.br/login
 
 ### Você pode obter informações adicionais do OAuth USA
 
-A ideia é: 
-Quando existem campos customizados para contas de usuários cadastrados em 
-https://seusite.usp.br/admin/config/people/accounts/fields,
-eles serão preenchidos por este módulo, usando as seguintes chaves:
+A ideia é: quando existem campos customizados para contas de usuários cadastrados em 
+https://seusite.usp.br/admin/config/people/accounts/fields, eles serão preenchidos por este módulo, 
+usando as seguintes chaves:
 
 ```bash
 oauth               = account field name
