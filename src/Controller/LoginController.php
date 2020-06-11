@@ -106,10 +106,30 @@ class LoginController extends ControllerBase {
         'nomvin'    => $data->extra[0]['nomeVinculo'] # Nome do Vínculo
       );
 
+      // Pega os vínculos retornados no OAuth
+      $vinculosOauth = $data->extra;
+      // Cria um array de vinculos vazio
+      $vinculos = array();
+      // Laço para popular o array de vinculos
+      foreach ($vinculosOauth as $vinculo) {
+        // Guarda o vínculo no array de vinculos
+        array_push($vinculos, $vinculo['nomeVinculo']);
+      }
+      // Transforma o array de vinculos em string
+      $vinculos = implode(',', $vinculos);
+      // Guarda a string vinculos no array profile
+      $profile['nomvin'] = $vinculos;
+
       foreach ($profile as $chave => $valor) {
         // Se existe o campo no Drupal accounts fields, popula
         if ($user->hasField("field_$chave")) {
-          $user->set("field_$chave", $valor);
+          // Se no OAuth não retornar valor, grava valor = ' ';
+          // Isso possibilita criar os campos customizados sem ser obrigatório
+          if (empty($valor)) {
+            $user->set("field_$chave", ' ');
+          } else {
+            $user->set("field_$chave", $valor);
+          }
         }
       }
 
