@@ -38,7 +38,7 @@ class SenhaunicauspForm extends ConfigFormBase {
       '#default_value' => $config->get('key_id'),
     ];
     $form['secret_key'] = [
-      '#type' => 'textfield',
+      '#type' => 'password',
       '#title' => $this->t('Secret Key'),
       '#description' => $this->t(''),
       '#default_value' => $config->get('secret_key'),
