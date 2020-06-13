@@ -62,24 +62,6 @@ class SenhaunicauspForm extends ConfigFormBase {
       '#default_value' => $config->get('default_role'),
       '#options' => $this->getRolesNames(),
     ];
-    $form['numeros_usp_service'] = [
-      '#type' => 'checkbox',
-      '#title' => $this->t('Também consumir lista de números USP de um serviço externo?'),
-      '#description' => $this->t(''),
-      '#default_value' => $config->get('numeros_usp_service'),
-    ];
-    $form['endpoint'] = [
-      '#type' => 'textfield',
-      '#title' => $this->t('Endpoint'),
-      '#description' => $this->t(''),
-      '#default_value' => $config->get('endpoint'),
-    ];
-    $form['apikey'] = [
-      '#type' => 'textfield',
-      '#title' => $this->t('Api Key'),
-      '#description' => $this->t(''),
-      '#default_value' => $config->get('apikey'),
-    ];
     return parent::buildForm($form, $form_state);
   }
 
@@ -102,9 +84,6 @@ class SenhaunicauspForm extends ConfigFormBase {
       ->set('callback_id', $form_state->getValue('callback_id'))
       ->set('numeros_usp', $form_state->getValue('numeros_usp'))
       ->set('default_role', $form_state->getValue('default_role'))
-      ->set('numeros_usp_service', $form_state->getValue('numeros_usp_service'))
-      ->set('endpoint', $form_state->getValue('endpoint'))
-      ->set('apikey', $form_state->getValue('apikey'))
       ->save();
   }
 

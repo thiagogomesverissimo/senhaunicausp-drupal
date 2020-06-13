@@ -39,22 +39,7 @@ class LoginController extends ControllerBase {
       // Verifica se o usuário em questão tem permissão para logar
       if( !empty($config->get('numeros_usp')) ) {
 
-        // autorizações de um serviço externo
-        if($config->get('numeros_usp_service')){
-          $site = $request->server->get('HTTP_HOST');
-
-          $client = new Client([
-             'base_uri' => $config->get('endpoint'),
-          ]);
-          $res = $client->request('GET',"/$site",
-                ['query' => ['api-key' => $config->get('apikey')]
-          ]);
-          $numeros_usp_from_service = json_decode($res->getBody());
-        } else {
-          $numeros_usp_from_service = '';
-        }
-        $numeros_usp = $config->get('numeros_usp') . ',' . $numeros_usp_from_service;
-
+        $numeros_usp = $config->get('numeros_usp');
         $numeros_usp = array_map('trim', explode(',', $numeros_usp));
 
         if(!in_array($data->uid,$numeros_usp)) {
@@ -150,16 +135,12 @@ class LoginController extends ControllerBase {
                           $request->get('oauth_verifier'));
 
       $session->set('token_credentials', serialize($tokenCredentials));
-      // Issue1: TODO: podemos descartar os token temporários
-      //unset($_SESSION['temporary_credentials']);
 
       return $this->redirect('senhaunicausp.login_controller_login');
-      //return new Response();
 
     } else {
       $temporaryCredentials = $server->getTemporaryCredentials();
       $session->set('temporary_credentials', serialize($temporaryCredentials));
-        $session->set('thiago', 'gomes');
       $url = $server->getAuthorizationUrl($temporaryCredentials) . '&callback_id=' . $config->get('callback_id');
       return new TrustedRedirectResponse($url);
     }
