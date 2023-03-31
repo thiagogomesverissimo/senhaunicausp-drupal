@@ -23,7 +23,7 @@ class LoginController extends ControllerBase {
 
     // Verifica se o módulo está configurado
     if( empty($config->get('key_id')) || empty($config->get('secret_key')) || empty($config->get('default_role')) ) {
-      drupal_set_message(t('Módulo Senha Única USP ainda não configurado!'), 'error');
+      \Drupal::messenger()->addMessage('Módulo Senha Única USP ainda não configurado!');
       return $this->redirect('<front>');
     }
 
@@ -43,7 +43,7 @@ class LoginController extends ControllerBase {
         $numeros_usp = array_map('trim', explode(',', $numeros_usp));
 
         if(!in_array($data->uid,$numeros_usp)) {
-          drupal_set_message(t('Desculpe-nos! Você não permissão para logar nesse site.'), 'error');
+          \Drupal::messenger()->addMessage(t('Desculpe-nos! Você não permissão para logar nesse site.'), 'error');
           return $this->redirect('<front>');
         }
       }
@@ -124,7 +124,8 @@ class LoginController extends ControllerBase {
       // Loga usuário
       user_login_finalize($user);
 
-      drupal_set_message(t('Login efetuado com sucesso!'), 'status');
+      \Drupal::messenger()->addMessage(t('Login efetuado com sucesso!'), 'status');
+
       return $this->redirect('<front>');
 
     } elseif ( !is_null($request->get('oauth_token')) && !is_null($request->get('oauth_verifier')) ) {

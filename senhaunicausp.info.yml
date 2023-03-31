@@ -3,3 +3,4 @@ type: module
 description: 'Senha Única USP'
 core: 8.x
 package: 'Universidade de São Paulo'
+core_version_requirement: ^8 || ^9
